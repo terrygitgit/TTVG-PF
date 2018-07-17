@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     [SerializeField] float tooFastMultiplier = .5f;
     [SerializeField] Vector2 deathKick = new Vector2(5f, 5f);
     [SerializeField] Vector2 hitKick = new Vector2(5f, 5f);
-    [SerializeField] GameObject spawnPoint;
     [SerializeField] bool doubleJumpAllowed = false;
     [SerializeField] float teleTime = 2f;
     [SerializeField] float LayerOne = -3;
@@ -56,6 +55,9 @@ public class Player : MonoBehaviour
     BoxCollider2D myFeetCollider; //FEET
     Animator myAnimator;
     SpriteRenderer mySpriteRenderer;
+
+    Transform spawnPoint;
+    
 
 
     [SerializeField] GameObject[] Layer1s;
@@ -121,6 +123,7 @@ public class Player : MonoBehaviour
         myFeetCollider.enabled = false;
         myAnimator.ResetTrigger("Stunned");
         myAnimator.SetTrigger("Dying");
+
     }
 
 
@@ -128,7 +131,8 @@ public class Player : MonoBehaviour
     // Messages and then Methods
     void Start()
     {
-        Farther();
+
+        
 
         myRigidBody = GetComponent<Rigidbody2D>();
         myBodyCollider = GetComponent<CapsuleCollider2D>();
@@ -141,16 +145,33 @@ public class Player : MonoBehaviour
         hitKick = new Vector2(Mathf.Abs(hitKick.x), Mathf.Abs(hitKick.y));
 
         gravityScale = myRigidBody.gravityScale;
-        
+
+        spawnPoint = FindObjectOfType<SpawnPoint>().myTransform;
+        Spawn();
+
     }
+
+    public void Spawn()
+    {
+        transform.position = spawnPoint.position;
+        if (transform.position.z == LayerOne)
+        {
+            onLayerOne = true;
+            Farther();
+        }
+        else if (transform.position.z == LayerTwo)
+        {
+            onLayerOne = false;
+            Closer();
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-        
 
         
-
         if (isAlive && canMove)
         {
             if (stunned)
@@ -259,16 +280,14 @@ public class Player : MonoBehaviour
         if (onLayerOne)
         {
             
-            transform.position = new Vector3(transform.position.x, transform.position.y, LayerTwo);
-            mySpriteRenderer.sortingLayerName = "Ground2";
+            
 
             Closer();
             onLayerOne = false;
         }
         else
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, LayerOne);
-            mySpriteRenderer.sortingLayerName = "Ground1";
+            
 
             Farther();
             onLayerOne = true;
@@ -281,6 +300,9 @@ public class Player : MonoBehaviour
 
     public void Closer()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y, LayerTwo);
+        mySpriteRenderer.sortingLayerName = "Ground2";
+
         foreach (GameObject thing in Layer1s)
         {
             thing.GetComponent<CompositeCollider2D>().isTrigger = true;
@@ -295,6 +317,9 @@ public class Player : MonoBehaviour
     
     public void Farther()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y, LayerOne);
+        mySpriteRenderer.sortingLayerName = "Ground1";
+
         foreach (GameObject thing in Layer1s)
         {
             thing.GetComponent<CompositeCollider2D>().isTrigger = false;
@@ -352,11 +377,10 @@ public class Player : MonoBehaviour
     {
         bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon; //mathf.epsilon = 0?
         myAnimator.SetBool("Running", playerHasHorizontalSpeed);
-        print("how");
+
 
         if (playerHasHorizontalSpeed && !stunned)
         {
-            print("not stunned");
             transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), transform.localScale.y);
         }
     }
@@ -551,8 +575,6 @@ public class Player : MonoBehaviour
         if (!isAlive) { return; }
         if (invincibility) { return; }
 
-        print("asdf");
-        print(collision.tag);
         if (collision.tag == "Hazard1")
         {
             if (onLayerOne)

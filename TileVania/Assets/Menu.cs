@@ -5,11 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour {
 
-    [SerializeField] GameObject gameSession;
+    GameObject gameSession;
+
+    private void Start()
+    {
+        gameSession = GameObject.Find("Game Session");
+    }
 
     public void FirstLevel() {
-
-        gameSession.GetComponent<GameSession>().PlayAgain();
+        
         SceneManager.LoadScene(1);
     }
 
