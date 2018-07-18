@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -10,6 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] float jumpSpeed = 5f;
+    [SerializeField] float jumpLength = 5f;
+    [SerializeField] float vertJumpSpeed = 2f;
+    [SerializeField] float maxJumpLength = 5;
+    [SerializeField] float grav = 2.5f;
+
+
     [SerializeField] float doubleJumpSpeed = 7f;
     [SerializeField] float tooFastMultiplier = .5f;
     [SerializeField] Vector2 deathKick = new Vector2(5f, 5f);
@@ -22,6 +29,8 @@ public class Player : MonoBehaviour
     [SerializeField] float stunTime = .5f;
     [SerializeField] float breather = .1f;
     [SerializeField] float dieTime = .5f;
+
+
 
     [SerializeField] float climbJumpSpeedH = 2f;
     [SerializeField] float jumpSpeedH = 2f;
@@ -36,6 +45,7 @@ public class Player : MonoBehaviour
     bool canMove = true;
     bool canDoubleJump = false;
     bool invincibility = false;
+    bool weighton = false;
 
     bool airbourne = false;
     bool stunned = false;
@@ -179,6 +189,11 @@ public class Player : MonoBehaviour
                 Stunned();
             }
 
+            if (weighton)
+            {
+                WeightOn();
+            }
+
             CheckClimb();
             UpdateAirbourneStatus();
 
@@ -191,6 +206,7 @@ public class Player : MonoBehaviour
                         Run();
                     }
                     Jump();
+                    
                 }
                 else {
                     if (!climbing)
@@ -198,7 +214,8 @@ public class Player : MonoBehaviour
                         //Steer();
                     }
                 }
-                
+                FinishJump();
+
 
                 if (doubleJumpAllowed)
                 {
@@ -218,6 +235,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void WeightOn()
+    {
+        if (Mathf.Sign( myRigidBody.velocity.y) == 1)
+        {
+            myRigidBody.gravityScale += grav;
+        } else
+        {
+            myRigidBody.gravityScale = gravityScale;
+            weighton = false;
+        }
+    }
+
     void UpdateAirbourneStatus ()
     {
         if (climbing) { airbourne = false; return; }
@@ -226,6 +255,7 @@ public class Player : MonoBehaviour
         {
             if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground1")))
             {
+                myRigidBody.gravityScale = gravityScale;
                 airbourne = false;
                 return;
             }
@@ -234,6 +264,7 @@ public class Player : MonoBehaviour
         {
             if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground2")))
             {
+                myRigidBody.gravityScale = gravityScale;
                 airbourne = false;
                 return;
             }
@@ -405,10 +436,10 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        else if (airbourne) { return; }
+
         
         
-        if (CrossPlatformInputManager.GetButtonDown("Jump"))
+        if (CrossPlatformInputManager.GetButton("Jump"))
         {
 
             if (climbing)
@@ -438,19 +469,47 @@ public class Player : MonoBehaviour
             }
             else
             {
-                if (Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal")) == 1)
-                {
-                    Vector2 jumpVelocityToAdd = new Vector2(0, jumpSpeed);
-                    myRigidBody.velocity += jumpVelocityToAdd;
-                }
-                else if (Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal")) == -1)
-                {
-                    Vector2 jumpVelocityToAdd = new Vector2(-0, jumpSpeed);
-                    myRigidBody.velocity += jumpVelocityToAdd;
-                }
+                ActuallyJump();
             }
         }
+
+
     }
+
+    private void ActuallyJump()
+    {
+        if (CrossPlatformInputManager.GetAxis("Horizontal") == 0)
+        {
+            print("asd");
+            Vector2 jumpVelocityToAdd = new Vector2(0, 12);
+            myRigidBody.velocity = jumpVelocityToAdd;
+
+        }
+
+        else if (Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal")) == 1)
+        {
+            Vector2 jumpVelocityToAdd = new Vector2(jumpLength, jumpSpeed);
+            myRigidBody.velocity = jumpVelocityToAdd;
+
+        }
+        else if (Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal")) == -1)
+        {
+            Vector2 jumpVelocityToAdd = new Vector2(-jumpLength, jumpSpeed);
+            myRigidBody.velocity = jumpVelocityToAdd;
+
+        }
+    }
+
+    private void FinishJump()
+    {
+        
+        if (CrossPlatformInputManager.GetButtonUp("Jump"))
+        {
+            weighton = true;
+            
+        }
+    }
+
 
     private void CheckDoubleJump()
     {
