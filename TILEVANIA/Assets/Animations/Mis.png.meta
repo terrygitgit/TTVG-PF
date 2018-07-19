@@ -1,21 +1,20 @@
 fileFormatVersion: 2
-guid: 7a44519166c49554ea4dc0b454537149
-timeCreated: 1531246367
+guid: 73e9656dc7a47b04cafcb9a86707742c
+timeCreated: 1531961639
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: NewPlayer_0
-    21300002: NewPlayer_1
-    21300004: NewPlayer_2
-    21300006: NewPlayer_3
-    21300008: NewPlayer_4
-    21300010: NewPlayer_5
-    21300012: NewPlayer_6
-    21300014: NewPlayer_7
-    21300016: NewPlayer_8
-    21300018: NewPlayer_9
-    21300020: NewPlayer_10
-    21300022: NewPlayer_11
+    21300000: Mis_0
+    21300002: Mis_1
+    21300004: Mis_2
+    21300006: Mis_3
+    21300008: Mis_4
+    21300010: Mis_5
+    21300012: Mis_6
+    21300014: Mis_7
+    21300016: Mis_8
+    21300018: Mis_9
+    21300020: Mis_10
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -102,68 +101,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: NewPlayer_0
+      name: Mis_0
       rect:
         serializedVersion: 2
         x: 12
-        y: 182
+        y: 181
         width: 24
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: NewPlayer_1
-      rect:
-        serializedVersion: 2
-        x: 42
-        y: 182
-        width: 24
-        height: 31
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: NewPlayer_2
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 182
-        width: 24
-        height: 31
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: NewPlayer_3
-      rect:
-        serializedVersion: 2
-        x: 101
-        y: 182
-        width: 24
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: NewPlayer_4
-      rect:
-        serializedVersion: 2
-        x: 196
-        y: 130
-        width: 36
         height: 33
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -172,13 +115,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: NewPlayer_5
+      name: Mis_1
       rect:
         serializedVersion: 2
-        x: 6
-        y: 130
+        x: 51
+        y: 181
+        width: 24
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mis_2
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 179
         width: 36
-        height: 32
+        height: 38
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,13 +143,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: NewPlayer_6
+      name: Mis_3
       rect:
         serializedVersion: 2
-        x: 45
-        y: 130
-        width: 36
-        height: 32
+        x: 9
+        y: 96
+        width: 25
+        height: 27
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,13 +157,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: NewPlayer_7
+      name: Mis_4
       rect:
         serializedVersion: 2
-        x: 84
-        y: 130
-        width: 36
-        height: 32
+        x: 43
+        y: 96
+        width: 26
+        height: 27
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,13 +171,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: NewPlayer_8
+      name: Mis_5
       rect:
         serializedVersion: 2
-        x: 123
-        y: 131
-        width: 36
-        height: 32
+        x: 79
+        y: 96
+        width: 26
+        height: 27
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,13 +185,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: NewPlayer_9
+      name: Mis_6
       rect:
         serializedVersion: 2
-        x: 158
-        y: 130
-        width: 36
-        height: 32
+        x: 111
+        y: 96
+        width: 26
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,13 +199,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: NewPlayer_10
+      name: Mis_7
       rect:
         serializedVersion: 2
-        x: 237
-        y: 130
-        width: 34
-        height: 32
+        x: 145
+        y: 96
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,13 +213,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: NewPlayer_11
+      name: Mis_8
       rect:
         serializedVersion: 2
-        x: 274
-        y: 130
-        width: 34
-        height: 32
+        x: 178
+        y: 96
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mis_9
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 96
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Mis_10
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 96
+        width: 25
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

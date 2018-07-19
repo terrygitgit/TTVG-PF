@@ -61,6 +61,17 @@ public class GameSession : MonoBehaviour {
         Destroy(gameObject);
     }
 
+    public void ResetCurrentLevel()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Destroy(gameObject);
+    }
+
+    
+
+
+
     private void TakeLife()
     {
         playerLives--;
