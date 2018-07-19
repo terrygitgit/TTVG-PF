@@ -2,71 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Menu : MonoBehaviour {
 
+    bool paused = false;
+    bool help = false;
+
+    static bool helpDealtWith = true;
+
     GameObject gameSession;
 
-    private void Start()
+    public void ExitHelp()
     {
-        gameSession = GameObject.Find("Game Session");
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            GameObject SettingsUI = GameObject.Find("Settings UI");
-            SettingsUI.GetComponent<Canvas>().enabled = true;
-        }
 
+        gameSession.GetComponent<GameSession>().ExitHelp();
     }
-
-    public void FirstLevel() {
-        TurnOffOptions();
-        SceneManager.LoadScene(1);
-    }
-
-    public void ResetCurrentLevel()
-    {
-        TurnOffOptions();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        
-    }
-
-
-    public void TurnOnOptions()
-    {
-        GameObject PauseCanvas = GameObject.Find("Pause Canvas");
-        PauseCanvas.GetComponent<Canvas>().enabled = true;
-
-        GameObject UICanvas = GameObject.Find("UI Canvas");
-        UICanvas.GetComponent<Canvas>().enabled = false;
-
-        GameObject SettingsUI = GameObject.Find("Settings UI");
-        SettingsUI.GetComponent<Canvas>().enabled = false;
-
-        Time.timeScale = 0;
-    }
-
-
-    public void TurnOffOptions()
-    {
-        GameObject PauseCanvas = GameObject.Find("Pause Canvas");
-        PauseCanvas.GetComponent<Canvas>().enabled = false;
-
-        GameObject UICanvas = GameObject.Find("UI Canvas");
-        UICanvas.GetComponent<Canvas>().enabled = true;
-
-        GameObject SettingsUI = GameObject.Find("Settings UI");
-        SettingsUI.GetComponent<Canvas>().enabled = true;
-
-        Time.timeScale = 1;
-    }
-
-
-    public void QuitGame()
-    {
-        TurnOffOptions();
-        Application.Quit();
-    }
-
 
     public void Help()
     {
@@ -77,19 +28,50 @@ public class Menu : MonoBehaviour {
         HelpCanvas.GetComponent<Canvas>().enabled = true;
     }
 
-    public void ExitHelp()
-    {
-        GameObject PauseCanvas = GameObject.Find("Pause Canvas");
-        PauseCanvas.GetComponent<Canvas>().enabled = true;
 
-        GameObject HelpCanvas = GameObject.Find("Instructions Page");
-        HelpCanvas.GetComponent<Canvas>().enabled = false;
+
+    public void FirstLevel() {
+        gameSession.GetComponent<GameSession>().TurnOffOptions();
+        SceneManager.LoadScene(1);
     }
+
+    public void ResetCurrentLevel()
+    {
+        gameSession.GetComponent<GameSession>().TurnOffOptions();
+        gameSession.GetComponent<GameSession>().ResetCurrentLevel();
+    }
+
+    private void Start()
+    {
+
+        gameSession = GameObject.Find("Game Session");
+        gameSession.GetComponent<GameSession>().TurnOffOptions();
+
+        
+
+        if (SceneManager.GetActiveScene().buildIndex == 1)  //MAGIC
+        {
+            GameObject UICanvas = GameObject.Find("UI Canvas");
+            UICanvas.GetComponent<Canvas>().enabled = true;
+        }
+
+
+
+    }
+
+    public void QuitGame()
+    {
+        gameSession.GetComponent<GameSession>().TurnOffOptions();
+        Application.Quit();
+    }
+
+
+    
 
 
     public void LoadMainMenu()
     {
-        TurnOffOptions();
+        gameSession.GetComponent<GameSession>().TurnOffOptions();
         gameSession.GetComponent<GameSession>().LoadMainMenu();
     }
     

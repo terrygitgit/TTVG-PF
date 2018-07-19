@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
     BoxCollider2D myFeetCollider; //FEET
     Animator myAnimator;
     SpriteRenderer mySpriteRenderer;
+    PolygonCollider2D myTeleportCollider;
 
     Transform spawnPoint;
     
@@ -149,6 +150,7 @@ public class Player : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myFeetCollider = GetComponent<BoxCollider2D>();
         mySpriteRenderer = GetComponent<SpriteRenderer>();
+        myTeleportCollider = GetComponent<PolygonCollider2D>();
         tooFast = tooFastMultiplier * jumpSpeed;
 
         deathKick = new Vector2(Mathf.Abs(deathKick.x), Mathf.Abs(deathKick.y));
@@ -255,6 +257,7 @@ public class Player : MonoBehaviour
         {
             if (myFeetCollider.IsTouchingLayers(LayerMask.GetMask("Ground1")))
             {
+
                 myRigidBody.gravityScale = gravityScale;
                 airbourne = false;
                 return;
@@ -285,7 +288,6 @@ public class Player : MonoBehaviour
             canMove = false;
             
             StopClimbing();
-            print(climbing);
         }
     }
 
@@ -369,6 +371,33 @@ public class Player : MonoBehaviour
 
     private void TurnMovementBackOn()
     {
+        if (onLayerOne)
+        {
+
+
+            if (myTeleportCollider.IsTouchingLayers(LayerMask.GetMask("Ground1")))
+            {
+                StartDeath();
+                return;
+            }
+            
+        }
+        else
+        {
+            if (myTeleportCollider.IsTouchingLayers(LayerMask.GetMask("Ground2")))
+            {
+                StartDeath();
+                return;
+            }
+
+            
+        }
+
+        
+
+
+        airbourne = true;
+
         myBodyCollider.enabled = true;
         myFeetCollider.enabled = true;
         myRigidBody.isKinematic = false;
@@ -480,7 +509,6 @@ public class Player : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetAxis("Horizontal") == 0)
         {
-            print("asd");
             Vector2 jumpVelocityToAdd = new Vector2(0, 12);
             myRigidBody.velocity = jumpVelocityToAdd;
 
