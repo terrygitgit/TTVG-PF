@@ -8,30 +8,47 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class GameSession : MonoBehaviour {
 
-    public int playerLives = 3;
-    public int playerScore = 0;  //MAGIC
+    private int playerLives = 3;
+    private int playerScore = 0;  //MAGIC
     bool paused = false;
     bool canPause = false;
+    bool originalExitHelpType = false;
 
     [SerializeField] Text livesText;
     [SerializeField] Text scoreText;
 
     private void Start()
     {
+        EstablishValues();
+
+        print(SceneManager.GetActiveScene().buildIndex);
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            canPause = true;
+            originalExitHelpType = true;
+        }
+    }
+
+    public void EstablishValues()
+    {
         int startLives = playerLives;
         int startScore = playerScore;
         livesText.text = playerLives.ToString();
         scoreText.text = playerScore.ToString();
-
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            canPause = true;
-        }
     }
-
 
     private void Update()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 1) //MAGIC
+        {
+            canPause = true;
+            originalExitHelpType = true;
+        }
+        else
+        {
+            canPause = false;
+            originalExitHelpType = false;
+        }
         Pause();
     }
 
@@ -90,7 +107,6 @@ public class GameSession : MonoBehaviour {
         {
             if (canPause)
             {
-                print("dasf");
                 if (!GameObject.Find("Instructions Page").GetComponent<Canvas>().enabled)
                 {
                     if (paused)
@@ -106,21 +122,46 @@ public class GameSession : MonoBehaviour {
                 }
                 else
                 {
-                    ExitHelp();
+                    if (originalExitHelpType == true)
+                    {
+                        ExitHelp();
+                    } else
+                    {
+                        
+                        ExitHelp2();
+                    }
                 }
             } 
 
         }
     }
 
+    public void ExitHelp2()
+    {
 
-    public void Help()
+        GameObject PauseCanvas = GameObject.Find("Pause Canvas");
+        PauseCanvas.GetComponent<Canvas>().enabled = false;
+
+        GameObject HelpCanvas = GameObject.Find("Instructions Page");
+        HelpCanvas.GetComponent<Canvas>().enabled = false;
+
+        if (GameObject.Find("Title"))
+        {
+            GameObject TitleCanvas = GameObject.Find("Title");
+            TitleCanvas.GetComponent<Canvas>().enabled = true;
+        }
+    }
+
+    public void ExitHelp3()
     {
         GameObject PauseCanvas = GameObject.Find("Pause Canvas");
         PauseCanvas.GetComponent<Canvas>().enabled = false;
 
         GameObject HelpCanvas = GameObject.Find("Instructions Page");
-        HelpCanvas.GetComponent<Canvas>().enabled = true;
+        HelpCanvas.GetComponent<Canvas>().enabled = false;
+
+        GameObject Title = GameObject.Find("Main Menu Canvas");
+        Title.GetComponent<Canvas>().enabled = true;
     }
 
     public void ExitHelp()

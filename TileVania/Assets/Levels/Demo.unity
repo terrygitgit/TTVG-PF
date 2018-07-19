@@ -106034,8 +106034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f383d1c83d97543bb7b0feff40f4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLives: 3
-  playerScore: 0
   livesText: {fileID: 1868378279}
   scoreText: {fileID: 501965306}
 --- !u!4 &1212065916
@@ -107172,7 +107170,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 79.3
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -107197,7 +107195,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1551329109}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -94.73854, y: -3.9283252, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1533082502}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -67,7 +68,7 @@ public class Player : MonoBehaviour
     SpriteRenderer mySpriteRenderer;
     PolygonCollider2D myTeleportCollider;
 
-    Transform spawnPoint;
+    Vector3 spawnPoint;
     
 
 
@@ -158,14 +159,23 @@ public class Player : MonoBehaviour
 
         gravityScale = myRigidBody.gravityScale;
 
-        spawnPoint = FindObjectOfType<SpawnPoint>().myTransform;
+        
+
+        spawnPoint = FindObjectOfType<SpawnPoint>().myTransform.position;
+
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            spawnPoint = new Vector3(-74.05852f, -5.759879f, -3f);
+        }
+
         Spawn();
 
     }
 
     public void Spawn()
     {
-        transform.position = spawnPoint.position;
+        transform.position = spawnPoint;
+        print(spawnPoint);
         if (transform.position.z == LayerOne)
         {
             onLayerOne = true;
@@ -686,6 +696,7 @@ public class Player : MonoBehaviour
 
     private void FallAndDie()
     {
+        print("ded");
         myAnimator.SetTrigger("Falling");
         isAlive = false;
         FindObjectOfType<GameSession>().ProcessPlayerDeath();
@@ -703,7 +714,7 @@ public class Player : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
-            transform.position = spawnPoint.GetComponent<Transform>().position;
+            transform.position = spawnPoint;
             myAnimator.SetTrigger("Waking");
             isAlive = true;
         }

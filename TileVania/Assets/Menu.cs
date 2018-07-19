@@ -13,10 +13,28 @@ public class Menu : MonoBehaviour {
 
     GameObject gameSession;
 
-    public void ExitHelp()
+    public void ExitHelp2()
     {
 
-        gameSession.GetComponent<GameSession>().ExitHelp();
+        
+    }
+
+    public void ExitHelp()
+    {
+        float scenes = SceneManager.GetActiveScene().buildIndex;
+        if (scenes == 0)
+        {
+            gameSession.GetComponent<GameSession>().ExitHelp3();
+        }
+        else if (scenes == 1) // MAGIC
+        {
+            gameSession.GetComponent<GameSession>().ExitHelp();
+        }
+        else
+        {
+
+            gameSession.GetComponent<GameSession>().ExitHelp2();
+        }
     }
 
     public void Help()
@@ -26,13 +44,22 @@ public class Menu : MonoBehaviour {
 
         GameObject HelpCanvas = GameObject.Find("Instructions Page");
         HelpCanvas.GetComponent<Canvas>().enabled = true;
+
+        if (GameObject.Find("Main Menu Canvas"))
+        {
+            GameObject Title = GameObject.Find("Main Menu Canvas");
+            Title.GetComponent<Canvas>().enabled = false;
+        }
+
     }
-
-
+    
 
     public void FirstLevel() {
         gameSession.GetComponent<GameSession>().TurnOffOptions();
+        
         SceneManager.LoadScene(1);
+        print("what");
+        gameSession.GetComponent<GameSession>().EstablishValues();
     }
 
     public void ResetCurrentLevel()
@@ -47,12 +74,17 @@ public class Menu : MonoBehaviour {
         gameSession = GameObject.Find("Game Session");
         gameSession.GetComponent<GameSession>().TurnOffOptions();
 
-        
+
 
         if (SceneManager.GetActiveScene().buildIndex == 1)  //MAGIC
         {
             GameObject UICanvas = GameObject.Find("UI Canvas");
             UICanvas.GetComponent<Canvas>().enabled = true;
+        }
+        else
+        {
+            GameObject UICanvas = GameObject.Find("UI Canvas");
+            UICanvas.GetComponent<Canvas>().enabled = false;
         }
 
 
