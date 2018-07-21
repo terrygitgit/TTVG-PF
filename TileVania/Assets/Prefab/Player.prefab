@@ -25,9 +25,10 @@ GameObject:
   - component: {fileID: 114218697895413590}
   - component: {fileID: 70251277028399950}
   - component: {fileID: 61578279919152294}
+  - component: {fileID: 60596686549362422}
   m_Layer: 11
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,9 +39,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1112840042051274}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.1079998, y: -0.61800003, z: 569.5}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -99.78, y: -5.1, z: -3}
+  m_LocalScale: {x: 1, y: 1, z: 5.18}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -56,15 +57,43 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
+  m_Mass: 1000000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2.5
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!60 &60596686549362422
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1112840042051274}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.75, y: 1}
+    newSize: {x: 0.75, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.101890564, y: 0.2174244}
+      - {x: -0.08078766, y: -0.24377394}
+      - {x: 0.14299774, y: -0.25002003}
+      - {x: 0.16661835, y: 0.21918297}
 --- !u!61 &61578279919152294
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -135,23 +164,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 5
   climbSpeed: 5
-  jumpSpeed: 12
-  doubleJumpSpeed: 10
+  jumpSpeed: 10
+  jumpLength: 4
+  vertJumpSpeed: 6
+  maxJumpLength: 5
+  grav: 3
+  doubleJumpSpeed: 12
   tooFastMultiplier: 0.5
   deathKick: {x: 5, y: 5}
   hitKick: {x: 5, y: 5}
-  spawnPoint: {fileID: 0}
   doubleJumpAllowed: 0
-  teleTime: 2
+  airbourneMobility: 1
+  teleTime: 0.2
   LayerOne: -3
   LayerTwo: -5
   hp: 3
-  stunTime: 0.5
+  stunTime: 0.15
   breather: 0.1
   dieTime: 0.5
+  climbJumpSpeedH: 5
+  jumpSpeedH: 4
+  jumptime: 0.25
   onLayerOne: 1
-  Layer1s: []
-  Layer2s: []
+  Layer1s:
+  - {fileID: 0}
+  Layer2s:
+  - {fileID: 0}
 --- !u!212 &212709254967815154
 SpriteRenderer:
   m_ObjectHideFlags: 1

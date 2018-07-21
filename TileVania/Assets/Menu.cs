@@ -55,10 +55,9 @@ public class Menu : MonoBehaviour {
     
 
     public void FirstLevel() {
+
         gameSession.GetComponent<GameSession>().TurnOffOptions();
-        
         SceneManager.LoadScene(1);
-        print("what");
         gameSession.GetComponent<GameSession>().EstablishValues();
     }
 

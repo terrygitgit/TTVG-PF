@@ -9155,6 +9155,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 223607520680086102, guid: 38a360058fe37c84cb89c689d0cbd51b,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 38a360058fe37c84cb89c689d0cbd51b, type: 2}
   m_IsPrefabParent: 0
@@ -15717,6 +15722,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 223227241497566950, guid: 2d92272fdeb6213408fbf2e144c5fe44,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d92272fdeb6213408fbf2e144c5fe44, type: 2}
   m_IsPrefabParent: 0
@@ -16279,7 +16289,7 @@ CompositeCollider2D:
         Y: 161290
       - X: 279838720
         Y: -9838710
-      - X: -61335235
+      - X: -64481937
         Y: -9838710
       - X: -69838712
         Y: -9838711
@@ -16520,7 +16530,7 @@ CompositeCollider2D:
       - {x: 35.98387, y: 0.016129}
       - {x: 27.983871, y: 0.016129}
       - {x: 27.983871, y: -0.983871}
-      - {x: -6.1335235, y: -0.983871}
+      - {x: -6.4481936, y: -0.983871}
       - {x: -6.9838715, y: -0.9838711}
       - {x: -6.9838715, y: -0.983871}
       - {x: -20.016129, y: -0.983871}

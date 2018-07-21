@@ -145,9 +145,9 @@ public class GameSession : MonoBehaviour {
         GameObject HelpCanvas = GameObject.Find("Instructions Page");
         HelpCanvas.GetComponent<Canvas>().enabled = false;
 
-        if (GameObject.Find("Title"))
+        if (GameObject.Find("Main Menu Canvas"))
         {
-            GameObject TitleCanvas = GameObject.Find("Title");
+            GameObject TitleCanvas = GameObject.Find("Main Menu Canvas");
             TitleCanvas.GetComponent<Canvas>().enabled = true;
         }
     }

@@ -3970,8 +3970,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f383d1c83d97543bb7b0feff40f4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLives: 3
-  playerScore: 0
   livesText: {fileID: 1731432677}
   scoreText: {fileID: 438582718}
 --- !u!4 &620923220
@@ -4764,6 +4762,11 @@ Prefab:
     - target: {fileID: 224568865782378154, guid: 38a360058fe37c84cb89c689d0cbd51b,
         type: 2}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 223607520680086102, guid: 38a360058fe37c84cb89c689d0cbd51b,
+        type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -19818,7 +19821,7 @@ GameObject:
   - component: {fileID: 2089042649}
   - component: {fileID: 2089042648}
   m_Layer: 5
-  m_Name: Main Menu Canvas (1)
+  m_Name: Main Menu Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -14,15 +14,17 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float jumpLength = 5f;
     [SerializeField] float vertJumpSpeed = 2f;
-    [SerializeField] float maxJumpLength = 5;
+    [SerializeField] float maxJumpLength = 5f;
     [SerializeField] float grav = 2.5f;
 
-
+    [SerializeField] bool godMode = false;
     [SerializeField] float doubleJumpSpeed = 7f;
     [SerializeField] float tooFastMultiplier = .5f;
+
     [SerializeField] Vector2 deathKick = new Vector2(5f, 5f);
     [SerializeField] Vector2 hitKick = new Vector2(5f, 5f);
     [SerializeField] bool doubleJumpAllowed = false;
+    [SerializeField] bool airbourneMobility = true;
     [SerializeField] float teleTime = 2f;
     [SerializeField] float LayerOne = -3;
     [SerializeField] float LayerTwo = -5;
@@ -32,7 +34,6 @@ public class Player : MonoBehaviour
     [SerializeField] float dieTime = .5f;
 
 
-
     [SerializeField] float climbJumpSpeedH = 2f;
     [SerializeField] float jumpSpeedH = 2f;
 
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour
     float gravityScale;
     Vector2 startVelocity;
     float totalStuntime;
+    public float jumptime = .5f;
 
     //States
     bool isAlive = true;
@@ -47,10 +49,12 @@ public class Player : MonoBehaviour
     bool canDoubleJump = false;
     bool invincibility = false;
     bool weighton = false;
+    bool warping = false;
 
     bool airbourne = false;
     bool stunned = false;
     bool stunnedAndDying = false;
+    bool jumping = false;
 
     bool climbing = false;
     public bool onLayerOne = true;
@@ -78,6 +82,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+
+        if (warping)
+        {
+            return;
+        }
+
         if (collider.tag == "Ladder1")
         {
             ladder1 = true;
@@ -93,6 +103,8 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
+
+
         if (collider.tag == "Ladder1")
         {
             ladder1 = false;
@@ -175,7 +187,6 @@ public class Player : MonoBehaviour
     public void Spawn()
     {
         transform.position = spawnPoint;
-        print(spawnPoint);
         if (transform.position.z == LayerOne)
         {
             onLayerOne = true;
@@ -211,22 +222,46 @@ public class Player : MonoBehaviour
 
             if (!stunned)
             {
-                if (!airbourne)
+                
+                if (!climbing)
                 {
-                    if (!climbing)
+                    if (airbourneMobility)
                     {
                         Run();
                     }
+                    else if (!airbourne)
+                    {
+                        Run();
+                    }
+                    
+                }
+
+                if (!godMode)
+                {
+                    if (!airbourne)
+                    {
+                        StartJump();
+                    }
+                }
+                else
+                {
+                    StartJump();
+                }
+
+                
+                if (jumping)
+                {
                     Jump();
                     
                 }
-                else {
+                StopJump();
+
+                if (!airbourne) {
                     if (!climbing)
                     {
                         //Steer();
                     }
                 }
-                FinishJump();
 
 
                 if (doubleJumpAllowed)
@@ -246,6 +281,8 @@ public class Player : MonoBehaviour
             ReAlive();
         }
     }
+
+    
 
     private void WeightOn()
     {
@@ -290,6 +327,7 @@ public class Player : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetButtonDown("Fire1"))
         {
+            warping = true;
             myAnimator.SetTrigger("Teleport");
 
             myRigidBody.isKinematic = true;
@@ -322,16 +360,11 @@ public class Player : MonoBehaviour
         
         if (onLayerOne)
         {
-            
-            
-
             Closer();
             onLayerOne = false;
         }
         else
         {
-            
-
             Farther();
             onLayerOne = true;
         }
@@ -339,6 +372,18 @@ public class Player : MonoBehaviour
         myBodyCollider.enabled = false;
         myFeetCollider.enabled = false;
         myAnimator.SetTrigger("Teleport 2");
+
+        foreach (GameObject thing in Layer1s)
+        {
+            thing.GetComponent<Collider2D>().usedByComposite = false;
+        }
+
+        foreach (GameObject thing in Layer2s)
+        {
+            thing.GetComponent<Collider2D>().usedByComposite = false;
+        }
+
+        myTeleportCollider.enabled = true;
     }
 
     public void Closer()
@@ -381,6 +426,18 @@ public class Player : MonoBehaviour
 
     private void TurnMovementBackOn()
     {
+
+        foreach (GameObject thing in Layer1s)
+        {
+            thing.GetComponent<Collider2D>().usedByComposite = true;
+        }
+
+        foreach (GameObject thing in Layer2s)
+        {
+            thing.GetComponent<Collider2D>().usedByComposite = true;
+        }
+
+
         if (onLayerOne)
         {
 
@@ -390,7 +447,18 @@ public class Player : MonoBehaviour
                 StartDeath();
                 return;
             }
+
             
+
+            if (myTeleportCollider.IsTouchingLayers(LayerMask.GetMask("Ground1")))
+            {
+                StartDeath();
+                return;
+            }
+
+
+
+
         }
         else
         {
@@ -400,19 +468,31 @@ public class Player : MonoBehaviour
                 return;
             }
 
-            
+
+            if (myTeleportCollider.IsTouchingLayers(LayerMask.GetMask("Ground2")))
+            {
+                StartDeath();
+                return;
+            }
+
+
         }
 
-        
+
 
 
         airbourne = true;
 
         myBodyCollider.enabled = true;
         myFeetCollider.enabled = true;
+        myTeleportCollider.enabled = false;
+
         myRigidBody.isKinematic = false;
         myRigidBody.velocity += startVelocity;
+        
         canMove = true;
+        warping = false;
+
     }
 
     private void Run()
@@ -438,7 +518,6 @@ public class Player : MonoBehaviour
 
         if (playerHasHorizontalSpeed)
         {
-            print("stunned");
             transform.localScale = new Vector2(Mathf.Sign(-myRigidBody.velocity.x), transform.localScale.y);
         }
     }
@@ -455,7 +534,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Jump()
+    private void StartJump()
     {
 
         if (climbing)
@@ -478,7 +557,7 @@ public class Player : MonoBehaviour
 
         
         
-        if (CrossPlatformInputManager.GetButton("Jump"))
+        if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
 
             if (climbing)
@@ -486,21 +565,21 @@ public class Player : MonoBehaviour
                 if ( CrossPlatformInputManager.GetAxis("Horizontal") == 0)
                 {
                     StopClimbing();
-                    Vector2 jumpVelocityToAdd = new Vector2(0, jumpSpeed)*.5f;
+                    Vector2 jumpVelocityToAdd = new Vector2(0, jumpSpeed);
                     myRigidBody.velocity += jumpVelocityToAdd;
                     canDoubleJump = false;
                 }
                 else if (Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal")) == 1)
                 {
                     StopClimbing();
-                    Vector2 jumpVelocityToAdd = new Vector2(climbJumpSpeedH, jumpSpeed*.5f);
+                    Vector2 jumpVelocityToAdd = new Vector2(climbJumpSpeedH, jumpSpeed);
                     myRigidBody.velocity += jumpVelocityToAdd;
                     canDoubleJump = false;
                 }
                 else if (Mathf.Sign(CrossPlatformInputManager.GetAxis("Horizontal")) == -1)
                 {
                     StopClimbing();
-                    Vector2 jumpVelocityToAdd = new Vector2(-climbJumpSpeedH, jumpSpeed*.5f);
+                    Vector2 jumpVelocityToAdd = new Vector2(-climbJumpSpeedH, jumpSpeed);
                     myRigidBody.velocity += jumpVelocityToAdd;
                     canDoubleJump = false;
                 }
@@ -508,18 +587,20 @@ public class Player : MonoBehaviour
             }
             else
             {
-                ActuallyJump();
+                
+                jumping = true;
+                StartCoroutine(FinishJumping(jumptime));
             }
         }
 
 
     }
 
-    private void ActuallyJump()
+    private void Jump()
     {
         if (CrossPlatformInputManager.GetAxis("Horizontal") == 0)
         {
-            Vector2 jumpVelocityToAdd = new Vector2(0, 12);
+            Vector2 jumpVelocityToAdd = new Vector2(0, jumpSpeed);
             myRigidBody.velocity = jumpVelocityToAdd;
 
         }
@@ -538,14 +619,25 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void FinishJump()
+    IEnumerator FinishJumping(float jumptime)
     {
-        
+        yield return new WaitForSeconds(jumptime);
+        FinishJump();
+    }
+
+    private void StopJump()
+    {
+
         if (CrossPlatformInputManager.GetButtonUp("Jump"))
         {
-            weighton = true;
-            
+            FinishJump();
         }
+    }
+
+    private void FinishJump()
+    {
+        print("stop");
+        jumping = false;
     }
 
 
