@@ -55,14 +55,20 @@ public class Enemy : MonoBehaviour {
         return transform.localScale.x > 0;
     }
 
+    
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Ground")
+        if (collision.tag == "Ground" || collision.tag == "Hazard1" || collision.tag == "Hazard2" || collision.tag == "Blocker1" || collision.tag == "Blocker2")
         {
-            transform.localScale = new Vector2(-Mathf.Sign(myRigidbody2D.velocity.x), 1f);
+            Flip();
         }
     }
 
+    public void Flip()
+    {
+        transform.localScale = new Vector2(-Mathf.Sign(myRigidbody2D.velocity.x), 1f);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

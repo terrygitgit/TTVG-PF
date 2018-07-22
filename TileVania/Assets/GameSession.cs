@@ -8,7 +8,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class GameSession : MonoBehaviour {
 
-    private int playerLives = 3;
+    private int playerLives = 5;
     private int playerScore = 0;  //MAGIC
     bool paused = false;
     bool canPause = false;

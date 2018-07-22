@@ -373,15 +373,7 @@ public class Player : MonoBehaviour
         myFeetCollider.enabled = false;
         myAnimator.SetTrigger("Teleport 2");
 
-        foreach (GameObject thing in Layer1s)
-        {
-            thing.GetComponent<Collider2D>().usedByComposite = false;
-        }
-
-        foreach (GameObject thing in Layer2s)
-        {
-            thing.GetComponent<Collider2D>().usedByComposite = false;
-        }
+        
 
         myTeleportCollider.enabled = true;
     }
@@ -424,18 +416,23 @@ public class Player : MonoBehaviour
         mySpriteRenderer.enabled = true;
     }
 
-    private void TurnMovementBackOn()
-    {
 
+    private void TurnEmOff()
+    {
         foreach (GameObject thing in Layer1s)
         {
-            thing.GetComponent<Collider2D>().usedByComposite = true;
+            thing.GetComponent<Collider2D>().usedByComposite = false;
         }
 
         foreach (GameObject thing in Layer2s)
         {
-            thing.GetComponent<Collider2D>().usedByComposite = true;
+            thing.GetComponent<Collider2D>().usedByComposite = false;
         }
+    }
+
+
+    private void TurnMovementBackOn()
+    {
 
 
         if (onLayerOne)
@@ -445,15 +442,9 @@ public class Player : MonoBehaviour
             if (myTeleportCollider.IsTouchingLayers(LayerMask.GetMask("Ground1")))
             {
                 StartDeath();
+                TurnEmOn();
                 return;
-            }
 
-            
-
-            if (myTeleportCollider.IsTouchingLayers(LayerMask.GetMask("Ground1")))
-            {
-                StartDeath();
-                return;
             }
 
 
@@ -465,21 +456,14 @@ public class Player : MonoBehaviour
             if (myTeleportCollider.IsTouchingLayers(LayerMask.GetMask("Ground2")))
             {
                 StartDeath();
-                return;
-            }
-
-
-            if (myTeleportCollider.IsTouchingLayers(LayerMask.GetMask("Ground2")))
-            {
-                StartDeath();
+                TurnEmOn();
                 return;
             }
 
 
         }
 
-
-
+        TurnEmOn();
 
         airbourne = true;
 
@@ -489,10 +473,25 @@ public class Player : MonoBehaviour
 
         myRigidBody.isKinematic = false;
         myRigidBody.velocity += startVelocity;
-        
+
         canMove = true;
         warping = false;
 
+    }
+
+    private void TurnEmOn()
+    {
+        foreach (GameObject thing in Layer1s)
+        {
+            thing.GetComponent<Collider2D>().usedByComposite = true;
+        }
+
+        foreach (GameObject thing in Layer2s)
+        {
+            thing.GetComponent<Collider2D>().usedByComposite = true;
+        }
+
+        Enemy.
     }
 
     private void Run()
@@ -744,8 +743,10 @@ public class Player : MonoBehaviour
             return;
         }
         
-        float controlThrow = CrossPlatformInputManager.GetAxis("Vertical");
-        Vector2 climbVelocity = new Vector2(myRigidBody.velocity.x, controlThrow * climbSpeed);
+
+        float controlThrowX = CrossPlatformInputManager.GetAxis("Horizontal");
+        float controlThrowY = CrossPlatformInputManager.GetAxis("Vertical");
+        Vector2 climbVelocity = new Vector2(controlThrowX * (climbSpeed*.5f), controlThrowY * climbSpeed);
         myRigidBody.velocity = climbVelocity;
         myRigidBody.gravityScale = 0f;
 
