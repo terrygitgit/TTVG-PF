@@ -10,9 +10,9 @@ public class Enemy : MonoBehaviour {
     [SerializeField] GameObject tripwire;
 
     Rigidbody2D myRigidbody2D;
-
+    Collider2D oldCollider;
     public bool canMove = true;
-
+    public bool prepare = false;
 	// Use this for initialization
 	void Start () {
         myRigidbody2D = GetComponent<Rigidbody2D>();
@@ -54,15 +54,17 @@ public class Enemy : MonoBehaviour {
     {
         return transform.localScale.x > 0;
     }
-
     
-
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Ground" || collision.tag == "Hazard1" || collision.tag == "Hazard2" || collision.tag == "Blocker1" || collision.tag == "Blocker2")
+        if (collision.GetType() == typeof(CompositeCollider2D))
         {
-            Flip();
+            if (collision.tag == "Ground" || collision.tag == "Hazard1" || collision.tag == "Hazard2" || collision.tag == "Blocker1" || collision.tag == "Blocker2")
+            {
+                Flip();
+            }
         }
+        
     }
 
     public void Flip()

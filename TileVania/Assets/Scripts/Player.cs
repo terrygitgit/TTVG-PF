@@ -9,33 +9,42 @@ public class Player : MonoBehaviour
 {
 
     //Config
+    [Header("Movement")]
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float jumpLength = 5f;
     [SerializeField] float vertJumpSpeed = 2f;
-    [SerializeField] float maxJumpLength = 5f;
-    [SerializeField] float grav = 2.5f;
 
+    [Header("More Movement")]
+    [SerializeField] float grav = 2.5f;
+    [SerializeField] float climbJumpSpeedH = 2f;
+    [SerializeField] float jumpSpeedH = 2f;
+
+    [Header("Meta Game")]
     [SerializeField] bool godMode = false;
     [SerializeField] float doubleJumpSpeed = 7f;
     [SerializeField] float tooFastMultiplier = .5f;
-
-    [SerializeField] Vector2 deathKick = new Vector2(5f, 5f);
-    [SerializeField] Vector2 hitKick = new Vector2(5f, 5f);
     [SerializeField] bool doubleJumpAllowed = false;
     [SerializeField] bool airbourneMobility = true;
-    [SerializeField] float teleTime = 2f;
-    [SerializeField] float LayerOne = -3;
-    [SerializeField] float LayerTwo = -5;
-    [SerializeField] int hp = 3;
+
+    [Header("Damage")]
+    [SerializeField] Vector2 deathKick = new Vector2(5f, 5f);
+    [SerializeField] Vector2 hitKick = new Vector2(5f, 5f);
     [SerializeField] float stunTime = .5f;
     [SerializeField] float breather = .1f;
     [SerializeField] float dieTime = .5f;
+    [SerializeField] int hp = 3;
+
+    [Header("Teleporter")]
+    [SerializeField] float teleTime = 2f;
+    [SerializeField] float LayerOne = -3;
+    [SerializeField] float LayerTwo = -5;
+    [SerializeField] GameObject[] enemies;
 
 
-    [SerializeField] float climbJumpSpeedH = 2f;
-    [SerializeField] float jumpSpeedH = 2f;
+
+
 
     float tooFast;
     float gravityScale;
@@ -428,6 +437,12 @@ public class Player : MonoBehaviour
         {
             thing.GetComponent<Collider2D>().usedByComposite = false;
         }
+
+        foreach (GameObject thing in enemies)
+        {
+            thing.GetComponent<Enemy>().prepare = true;
+        }
+        
     }
 
 
@@ -490,8 +505,7 @@ public class Player : MonoBehaviour
         {
             thing.GetComponent<Collider2D>().usedByComposite = true;
         }
-
-        Enemy.
+        
     }
 
     private void Run()
